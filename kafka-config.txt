@@ -1,0 +1,41 @@
+zkServer.sh start | status
+
+cli.sh - start zookeeper client
+zookeeper-3.4.6/bin/zkCli.sh -server 10.10.1.121:2181
+
+start.sh - start kafka
+kafka_2.9.2-0.8.1.1/bin/kafka-server-start.sh kafka_2.9.2-0.8.1.1/config/server.properties
+
+
+kafka error: Unrecognized VM option 'UseCompressedOops
+grep "UseCo" *.sh
+kafka-run-class.sh 删除 -XX:+UseCompressedOops
+
+kafka error: 
+host.name=localhost
+
+bin/zookeeper-server-start.sh config/zookeeper.properties &
+
+现在启动Kafka:
+bin/kafka-server-start.sh config/server.properties
+
+创建 topic
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+
+可以通过list命令查看创建的topic:
+bin/kafka-topics.sh --list --zookeeper localhost:2181
+
+
+
+从web服务器下载文件，列文件
+down(){
+        for f in $@;do
+                wget "192.168.1.177/"$f
+        done
+};
+
+lst(){  
+        rm -rf .temp.html
+        wget -c "192.168.1.177" -O .temp.html -q
+        cat .temp.html |grep 'href' |sed 's/.*href="\(.*\)">.*/\1/g'
+}
